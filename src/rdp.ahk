@@ -6,8 +6,8 @@
 
 class rdp_session_map {
     __new(public_rdp_session, private_rdp_session) {
-        this[network.profiles.public] := public_rdp_session
-        this[network.profiles.private] := private_rdp_session
+        this[network.profile.public] := public_rdp_session
+        this[network.profile.private] := private_rdp_session
     }
 }
 
