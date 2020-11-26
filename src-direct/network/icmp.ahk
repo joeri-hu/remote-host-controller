@@ -1,10 +1,11 @@
 /* to-do: documentation
 */
 #include ../core/command.ahk
+#include ../network/host.ahk
 
 class icmp_connection {
-    __new(ByRef host_name, request_limit := 2) {
-        this.host_name := host_name
+    __new(host, request_limit := 2) {
+        this.host := host
         this.request_limit := request_limit
         this.construct_commands()
     }
@@ -17,20 +18,11 @@ class icmp_connection {
 
         this.reach_host := command
             .chain(send_request, "|", verify_reply)
-            .bind(this.request_limit, this.host_name)
     }
 
     is_host_reachable() {
-        return this.reach_host.exec_cmd()
-    }
-
-    set_host_name(ByRef host_name) {
-        this.reach_host.bind(this.request_limit, host_name)
-        this.host_name := host_name
-    }
-
-    set_requests(request_limit) {
-        this.reach_host.bind(request_limit, this.host_name)
-        this.request_limit := request_limit
+        return this.reach_host
+            .bind(this.request_limit, this.host.name)
+            .exec_cmd()
     }
 }

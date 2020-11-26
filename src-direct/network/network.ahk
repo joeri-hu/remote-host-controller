@@ -18,7 +18,7 @@ class network {
 }
 
 class network_control {
-    static active_profile := network.profile.undefined
+    static active_profile := enums.network_profile.undefined
 
     __new(icmp_connection, vpn_connection) {
         this.icmp := icmp_connection
@@ -40,18 +40,18 @@ class network_control {
 
     is_active_profile_public() {
         return network_control.active_profile 
-            == network.profile.public
+            == enums.network_profile.public
     }
 
     is_active_profile_private() {
         return network_control.active_profile
-            == network.profile.private
+            == enums.network_profile.private
     }
 
     update_active_profile() {
         network_control.active_profile
             := network.is_wifi_connected()
-                ? network.profile.public
-                : network.profile.private
+                ? enums.network_profile.public
+                : enums.network_profile.private
     }
 }

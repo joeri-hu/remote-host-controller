@@ -1,17 +1,14 @@
 /* to-do: documentation
 */
-#include ../power/power.ahk
+#include ../enums/enums.ahk
 #include ../network/network.ahk
-#include ../desktop/rdp.ahk
-
-class session {
-    static state := {initiated: 1, closed: 2}
-}
+#include ../system/power.ahk
+#include ../system/rdp.ahk
 
 class session_control {
-    __new(power_control, network_control, rdp_session_map) {
-        this.power := power_control
+__new(network_control, power_control, rdp_session_map) {
         this.network := network_control
+        this.power := power_control
         this.rdp_sessions := rdp_session_map
     }
 
@@ -39,7 +36,7 @@ class session_control {
         this.power.suspend_host()
         this.network.close_vpn_connection()
         this.active_session.window_handler.wait_for_closed_windows()
-        this.session_state := session.state.closed
+        this.session_state := enums.session_state.closed
     }
 
     initiate_remote_session() {
@@ -47,7 +44,7 @@ class session_control {
             this.network.establish_vpn_connection()
         }
         this.establish_remote_connection()
-        this.session_state := session.state.initiated
+        this.session_state := enums.session_state.initiated
     }
 
     establish_remote_connection(retry_limit := 24) {
@@ -67,10 +64,10 @@ class session_control {
     }
 
     is_session_initiated() {
-        return this.session_state == session.state.initiated
+        return this.session_state == enums.session_state.initiated
     }
 
     is_session_closed() {
-        return this.session_state == session.state.closed
+        return this.session_state == enums.session_state.closed
     }
 }

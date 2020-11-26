@@ -1,13 +1,13 @@
 /* to-do: documentation
 */
-#include window.ahk
-#include ../network/network.ahk
-#include ../command/command.ahk
+#include ../core/command.ahk
+#include ../desktop/window.ahk
+#include ../enums/enums.ahk
 
 class rdp_session_map {
     __new(public_rdp_session, private_rdp_session) {
-        this[network.profile.public] := public_rdp_session
-        this[network.profile.private] := private_rdp_session
+        this[enums.network_profile.public] := public_rdp_session
+        this[enums.network_profile.private] := private_rdp_session
     }
 }
 
@@ -56,41 +56,28 @@ class rdp_session {
 }
 
 class rdp_control {
-    __new(ByRef config_dir, rdp_configs) {
+    __new(rdp_configs, ByRef config_dir) {
+        this.configs := rdp_configs
         this.config_dir := config_dir
-        this.construct_config_commands(rdp_configs)
+        this.construct_commands()
     }
 
-    construct_config_commands(source_configs) {
-        this.rdp_configs_copy := array()
-
-        for index, config in source_configs {
-            config_copy := config.clone()
-            config_copy.connect_cmd
-                := new command("mstsc ""{}\{}.rdp""")
-                    .bind(this.config_dir, config.file_name)
-            this.rdp_configs_copy.push(config_copy)
+    construct_commands() {
+        for index, config in this.configs {
+            config.connect_cmd := new command("mstsc ""{}\{}.rdp""")
         }
     }
 
     start_rdp_connections() {
-        for index, config in this.rdp_configs_copy {
+        for index, config in this.configs {
+            config.connect_cmd.bind(this.config_dir
+                , config.file_name)
+
             if (not config.connect_cmd.co_exec()) {
                 throw Exception(Format(
-                    + "Unable to start RDP connection: {} :("
-                    , config.file_name))
+                    + "Unable to start RDP connection: {}\{} :("
+                    , this.config_dir, config.file_name))
             }
         }
-    }
-
-    set_config_directory(config_dir) {
-        for index, config in this.rdp_configs_copy {
-            config.connect_cmd.bind(config_dir, config.file_name)
-        }
-        this.config_dir := config_dir
-    }
-
-    set_rdp_configs(rdp_configs) {
-        this.construct_config_commands(rdp_configs)
     }
 }

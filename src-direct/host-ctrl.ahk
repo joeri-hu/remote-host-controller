@@ -31,12 +31,12 @@ class remote_host_control {
     static tools := new tool_map("c:\tools", {wol: "wol.exe"})
     static standby_task := new scheduled_task("initiate_standby")
     static power_handler
-        := new power_control(server, tools.wol, standby_task.name)
-    static server_connection := new icmp_connection(server.name)
+        := new power_control(server, standby_task.name, tools.wol)
+    static server_connection := new icmp_connection(server)
     static openvpn_service := new service("OpenVPNService")
     static openvpn_addr_pool := "^192.168.1.([1-5][0-9]|60)$"
     static openvpn_connection
-        := new vpn_connection(openvpn_service.name, openvpn_addr_pool)
+        := new vpn_connection(openvpn_service, openvpn_addr_pool)
     static network_handler
         := new network_control(server_connection, openvpn_connection)
     static main_window := new window(server.name . "_main")
