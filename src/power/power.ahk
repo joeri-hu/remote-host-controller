@@ -1,7 +1,7 @@
 /* to-do: documentation
 */
-#include host.ahk
-#include command.ahk
+#include ../network/host.ahk
+#include ../command/command.ahk
 
 class power {
     initiate_standby() {

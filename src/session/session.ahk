@@ -1,8 +1,8 @@
 /* to-do: documentation
 */
-#include power.ahk
-#include network.ahk
-#include rdp.ahk
+#include ../power/power.ahk
+#include ../network/network.ahk
+#include ../desktop/rdp.ahk
 
 class session {
     static state := {initiated: 1, closed: 2}

@@ -1,6 +1,6 @@
 /* to-do: documentation
 */
-#include command.ahk
+#include ../command/command.ahk
 
 class vpn_connection {
     __new(ByRef service_name, ByRef addr_pool_regex) {

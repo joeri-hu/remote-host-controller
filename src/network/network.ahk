@@ -2,7 +2,7 @@
 */
 #include icmp.ahk
 #include vpn.ahk
-#include command.ahk
+#include ../command/command.ahk
 
 class network {
     static profile := {undefined: 0, public: 1, private: 2}

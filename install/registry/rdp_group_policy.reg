@@ -1,0 +1,10 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\Client]
+"fUsbRedirectionEnableMode"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services]
+"fSingleSessionPerUser"=dword:00000001
+"Shadow"=dword:00000002
+"fDisablePNPRedir"=dword:00000000
+"AllowedAudioQualityMode"=dword:00000007

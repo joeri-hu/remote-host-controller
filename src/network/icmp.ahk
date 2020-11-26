@@ -1,6 +1,6 @@
 /* to-do: documentation
 */
-#include command.ahk
+#include ../command/command.ahk
 
 class icmp_connection {
     __new(ByRef host_name, request_limit := 2) {

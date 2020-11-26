@@ -1,8 +1,8 @@
 /* to-do: documentation
 */
-#include network.ahk
 #include window.ahk
-#include command.ahk
+#include ../network/network.ahk
+#include ../command/command.ahk
 
 class rdp_session_map {
     __new(public_rdp_session, private_rdp_session) {
