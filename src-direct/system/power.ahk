@@ -22,28 +22,29 @@ class power_control {
     }
 
     construct_commands() {
-        this.suspend_host
+        this.run_standby_task
             := new command("schtasks /run /s {} /tn {}")
-        this.wakeup_host := new command("{} /wakeup {}")
+        this.send_magic_packet := new command("{} /wakeup {}")
     }
 
     suspend_host() {
-        this.suspend_host.bind(this.host.name
+        this.run_standby_task.bind(this.host.name
             , this.standby_task.name)
 
-        if (not this.suspend_host.exec()) {
+        if (not this.run_standby_task.exec()) {
             throw Exception(Format(
                 + "Unable to suspend host: {} :("
-                , this.host_name))
+                , this.host.name))
         }
     }
 
     wakeup_host() {
-        this.wakeup_host.bind(this.wol_tool, this.host.mac_addr)
+        this.send_magic_packet.bind(this.wol_tool
+            , this.host.mac_addr)
 
-        if (not this.wakeup_host.exec()) {
+        if (not this.send_magic_packet.exec()) {
             throw Exception(Format(
-                + "Unable to deliver magic packet: {} :("
+                + "Unable to send magic packet: {} :("
                 , this.host.mac_addr))
         }
     }
